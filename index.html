@@ -1529,12 +1529,14 @@
         document.getElementById(id).classList.add('breathe');
     
         if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
-            alert("No TTS.")
+            ///alert("No TTS.")
+            console.log("alert:", "No TTS.");
             ///alert("此瀏覽器不支援語音合成功能（TTS）。請改用 Chrome 或 Safari。");
             return;
         }
         if (!voices || voices.length === 0) {
-            alert("No TTS voices.")
+            ///alert("No TTS voices.")
+            console.log("alert:", "No Voices.");
             ///alert("語音清單尚未載入，請稍後再試。");
             return;
         }
