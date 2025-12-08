@@ -1519,6 +1519,10 @@
     function handleTTS(id, lang = "") {
         ///document.getElementById(id).style.display = "";
         
+        if (document.getElementById(id).style.display === "none") {
+            document.getElementById(id).style.display = "";
+        }
+        
         // 移除再加上 class，確保每次點擊都能觸發動畫
         document.getElementById(id).classList.remove('breathe');
         void document.getElementById(id).offsetWidth; // 強制 reflow
