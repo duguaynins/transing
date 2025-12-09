@@ -1579,7 +1579,7 @@
         const after = text.substring(index + "👄".length); // 👄 後的內容（+1）
         // 格式化**
         const content = before.substring(1 + "🔣".length);
-        const language = after.substring(0, after.length - 1);language = handleVoice(language);   // 或 after = after.slice(0, -1);
+        const language = after.substring(0, after.length - 1);///language = handleVoice(language);   // 或 after = after.slice(0, -1);
         const talkrate = input.value;
         console.log("content:", content);
         console.log("language:", language);
