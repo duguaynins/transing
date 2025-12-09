@@ -1512,7 +1512,32 @@
     }
     
     
+    function languageScript(tag) {
+      return tag.split('-').slice(0, 2).join('-');
+    }
+    function languageRegion(tag) {
+      const match = tag.match(/^([^-]+)-([^-]+)$/); // 嘗試匹配兩段
+      if (match) return match[1] + '-' + match[2];
+      
+      // 如果有三段以上，取第一段 + 最後一段
+      const parts = tag.split('-');
+      if (parts.length >= 2) return parts[0] + '-' + parts[parts.length - 1];
 
+      return tag; // 只有語言
+    }
+    
+    function handleVoice(language) {
+      // 設定預設語音
+      ///const language = languageRegion(navigator.language || navigator.userLanguage || "en-US");  // 閱讀母語
+      const voice = voices.find(v => v.lang.startsWith( new URL(window.location.href).searchParams.get("lang")||language )) || 
+                          ///voices.find(v => v.lang === language) || 
+                          voices.find(v => v.lang.startsWith( language.replace(/_/g, "-") )) || // zh-TW
+                          voices.find(v => v.lang.startsWith( language.replace(/-/g, "_") )) || // zh_TW
+                          voices.find(v => v.lang.startsWith( language.slice(0, 2) ));
+      ///const index = voices.indexOf(voice);
+      ///const voice = voices[parseInt(voiceSelect.value)]
+      return voice.lang;
+    }
     
     // 處理文字轉語音****
     // 的按鈕點擊事件****
@@ -1554,7 +1579,7 @@
         const after = text.substring(index + "👄".length); // 👄 後的內容（+1）
         // 格式化**
         const content = before.substring(1 + "🔣".length);
-        const language = after.substring(0, after.length - 1)   // 或 after = after.slice(0, -1);
+        const language = after.substring(0, after.length - 1);language = handleVoice(language);   // 或 after = after.slice(0, -1);
         const talkrate = input.value;
         console.log("content:", content);
         console.log("language:", language);
