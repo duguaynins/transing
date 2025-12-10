@@ -2065,6 +2065,11 @@ console.log(version);
         const tryTranslate = () => {
           const combo = document.querySelector('.goog-te-combo');
           
+          if (lang.replace(/_/g, "-").split("-")[0] === "en") {
+            document.getElementById('InputRoom').disabled = false;
+            document.getElementById('InputRoom').style.display = 'block';
+            ///document.getElementById('InputRoom').textAlign = 'center';
+          }
       
           waitForTranslationById('notice', () => {
             document.getElementById('InputRoom').disabled = false;
