@@ -1585,7 +1585,8 @@ console.log(version);
     function handleVoice(language) {
       // 設定預設語音
       ///const language = languageRegion(navigator.language || navigator.userLanguage || "en-US");  // 閱讀母語
-      const voice = voices.find(v => v.lang.startsWith( new URL(window.location.href).searchParams.get("lang")||language )) || 
+      const voice = voices.filter(v => v.lang === language)[0] ||
+                    ///voices.find(v => v.lang.startsWith( new URL(window.location.href).searchParams.get("lang")||language )) || 
                     ///voices.find(v => v.lang === language) || 
                     voices.find(v => v.lang.startsWith( language.replace(/_/g, "-") )) || // zh-TW
                     voices.find(v => v.lang.startsWith( language.replace(/-/g, "_") )) || // zh_TW
