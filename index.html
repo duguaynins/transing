@@ -147,7 +147,7 @@
         box-shadow: 0 0 5px red;
       }
     </style>
-    <style>
+    <!--style>
       .skiptranslate {
         display: none !important;   /* 避免 display:none 影響內容顯示 */
         position: static !important;   /* 防止位置異常 */
@@ -161,6 +161,11 @@
       }
       iframe {
         display: none !important;
+      }
+    </style-->
+    <style>
+      iframe.skiptranslate, #goog-gt-tt {
+          display: none !important;
       }
       
       /* 動畫定義：呼吸一次 */
@@ -211,7 +216,7 @@
     </style>
 </head>
 <body>
-    <div id="google_translate_element" style="display:none;"></div>
+    <!--div id="google_translate_element" style="display:block;"></div-->
   
     
     <button disabled="" id="disabled" style="
@@ -284,12 +289,21 @@
         
         <!--strong></strong-->
         <div style="background: #FF3B00; color: white;" translate="yes">
-        <div style="margin: 10px;" onclick="" id="notice">
+        <div style="margin: 10px;" onclick="document.getElementById('DialogTrans').showModal();" id="notice">
         By using any of the services, it means you have agreed to any content and all content!
         </div></div>
   </div>
 
   
+  <dialog id="DialogTrans" translate="no">
+      <div id="google_translate_element" style="display:block;"></div><br>      
+      <button id="openLog" style="width: 100%;" onclick="document.getElementById('DialogTrans').close();console.log(new Date().toLocaleString(), '🙈');">❌</button>
+  </dialog>
+    
+  <dialog id="DialogCheck" translate="no">
+      <pre id="logOutput" style="max-height:200px; overflow:auto; margin:0;"></pre><br>
+      <button id="openLog" style="width: 100%;" onclick="document.getElementById('DialogCheck').close();console.log(new Date().toLocaleString(), '🙈');">❌</button>
+  </dialog>
   
   <dialog id="DialogShare" style="background-color: #000000; 
       display: flex; flex-direction: column; align-items: center;
@@ -409,16 +423,6 @@
   </dialog>
   
   
-  
-  
-  
-    
-  <dialog id="DialogCheck" translate="no">
-      <pre id="logOutput" style="max-height:200px; overflow:auto; margin:0;"></pre>
-      <br>
-      <button id="openLog" style="width: 100%;" onclick="document.getElementById('DialogCheck').close();console.log(new Date().toLocaleString(), '🙈');">❌</button>
-
-  </dialog>
 <!-- HTML ================================================== -->
 
 <script>
@@ -1237,6 +1241,8 @@ console.log(version);
         let token = params.get("token") || ("nins");  ///!!!
         
         document.getElementById('InputRoom').value = ("WORLD");  ///!!!
+        document.getElementById('InputRoom').disabled = true;  // 禁用
+        document.getElementById('InputRoom').style.display = 'none';
         ///!!!
         
         //*document.getElementById('Selectslang').disabled = false;  // 啟用
@@ -1330,11 +1336,25 @@ console.log(version);
             case 'connected':
               console.log('✅ Connected: Successfully connected to Ably.');
               state.textContent  = "✅（Connected）";
+
+              document.getElementById('InputRoom').disabled = true;
+              document.getElementById('InputRoom').style.display = 'none';
+              ///document.getElementById('InputRoom').placeholder = '';
+
+              document.getElementById('InputMsg').disabled = false;
+              document.getElementById('InputMsg').style.display = 'block';
               break;
             case 'disconnected':
               console.log('⚠️ Disconnected: Connection is temporarily unavailable, retrying...');
               state.textContent  = "⚠️（Disconnected）";
 
+              document.getElementById('InputRoom').disabled = true;
+              document.getElementById('InputRoom').style.display = 'none';
+              ///document.getElementById('InputRoom').placeholder = '';
+
+              document.getElementById('InputMsg').disabled = true;
+              document.getElementById('InputMsg').style.display = 'none';
+                  
               /*
               ably.close();  ///!!!
               document.getElementById("InputMsg").disabled = true;
@@ -2036,11 +2056,22 @@ console.log(version);
         new google.translate.TranslateElement({
           pageLanguage: 'en',  ///'en', ilang, 改為根據中間語言  ///鼓勵輸入中間語言，翻譯必定可以顯示英文。
           includedLanguages: '',  ///zh-TW,ja,ko,en,hi,zh-CN
-          autoDisplay: false,
+          autoDisplay: true,
           ///layout: google.translate.TranslateElement.InlineLayout.SIMPLE
         }, 'google_translate_element');
       }
-      
+
+      function waitForCombo(callback) {
+        /*這是一種調用方法？ 並且使用方法的內部變數？ */
+        const timer = setInterval(() => {
+          const combo = document.querySelector('.goog-te-combo');
+          if (combo) {
+            clearInterval(timer);
+            callback(combo);
+          }
+        }, 300);
+      }
+
       function waitForTranslationById(elementId, callback) {
         const target = document.getElementById(elementId);
         if (!target) return;
@@ -2066,7 +2097,8 @@ console.log(version);
       function autoTranslate(lang) {
         const tryTranslate = () => {
           const combo = document.querySelector('.goog-te-combo');
-          
+          console.log('combo?', !!combo);
+            
           if (lang.replace(/_/g, "-").split("-")[0] === "en") {
             document.getElementById('InputRoom').disabled = false;
             document.getElementById('InputRoom').style.display = 'block';
@@ -2079,7 +2111,14 @@ console.log(version);
             ///document.getElementById('InputRoom').textAlign = 'center';
           });
 
+          if (!combo) { setTimeout(tryTranslate, 300); }
           if (combo) {
+            document.querySelector('.goog-te-combo').addEventListener('change', () => {
+              console.log("語言已切換!");
+              console.log("新語言代碼:", combo.value);
+              console.log("新語言文字:", combo.options[combo.selectedIndex].text);
+            });
+
             const options = Array.from(combo.options).map(opt => opt.value);console.log('可用語言代碼:', options);
             console.log("autoTranslate?:", lang);
             ///combo.value = lang;
@@ -2118,11 +2157,22 @@ console.log(version);
       }
     
       window.addEventListener('load', () => {
+        console.log("window...load");
+          
+        waitForCombo((combo) => {
+          console.log("autoTranslate...waitForCombo");
+          autoTranslate( (navigator.language || navigator.userLanguage || "en-US") );
+          ///console.log("combo 已生成:", combo);
+          ///combo.value = 'en';
+          ///combo.dispatchEvent(new Event('change'));
+        });
+        /*
         setTimeout(() => {
+          console.log("autoTranslate...setTimeout");
           ///const slang = navigator.language || navigator.userLanguage || "en-US";
           autoTranslate( (navigator.language || navigator.userLanguage || "en-US") );          
           ///document.getElementById(":1.container").style.display = "";
-        }, 1000);
+        }, 1000); */
       });
     </script>
     
