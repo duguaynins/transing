@@ -3,6 +3,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -1765,13 +1766,17 @@ console.log(version);
               p.setAttribute('translate', 'no');  //???
               ///document.getElementById("chatbox").prepend(p);
               ///document.getElementById("chatbox").insertBefore(p, document.getElementById("anchor"));
-              document.getElementById('anchor').after(p);
+              ///document.getElementById('anchor').after(p);  ///20260122
+
+              ///setTimeout(() => null, 1000);  // 方便閱讀  ///20260122
+              setTimeout(() => { document.getElementById('anchor').after(p); }, 2000);  ///20260122
 
               if (!err) { console.log('Members:', members.length);document.getElementById("copyright").innerHTML = `👻（${room}, ${members.length}）`; }
             });
             if (member.clientId === uuid_user) {
+              setTimeout(() => { 
               document.getElementById("InputMsg").disabled = false;
-              document.getElementById("InputMsg").style.display = '';
+              document.getElementById("InputMsg").style.display = ''; }, 2000);  ///20260122
             }
         });
           
@@ -1791,13 +1796,17 @@ console.log(version);
               p.setAttribute('translate', 'no');  //???
               ///document.getElementById("chatbox").prepend(p);
               ///document.getElementById("chatbox").insertBefore(p, document.getElementById("anchor"));
-              document.getElementById('anchor').after(p);
+              ///document.getElementById('anchor').after(p);  ///20260122
+
+              ///setTimeout(() => null, 1000);  // 方便閱讀  ///20260122
+              setTimeout(() => { document.getElementById('anchor').after(p); }, 1);  ///20260122
 
               if (!err) { console.log('Members:', members.length);document.getElementById("copyright").innerHTML = `👻（${room}, ${members.length}）`; }
             });
             if (member.clientId === uuid_user) {
+              setTimeout(() => { 
               document.getElementById("InputMsg").disabled = true;
-              document.getElementById("InputMsg").style.display = 'none';
+              document.getElementById("InputMsg").style.display = 'none'; }, 1);  ///20260122
             }
         });
         
