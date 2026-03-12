@@ -1399,7 +1399,8 @@ document.addEventListener("pointerup", (event) => {
             const email = room;
             const webpush = await channels({ "email": email });
             console.log(webpush);
-            pushAdmin(null, "nins/transing", room, webpush);
+            ///pushAdmin(null, "nins/transing", room, webpush);
+            pushAdmin(null, "nins/transing", `${room} <<< ${uuid_user}`, webpush);
 
             document.getElementById('InputRoom').style.display = '';
             document.getElementById('InputRoom').disabled = false;  // 不禁用
