@@ -1179,7 +1179,14 @@ document.addEventListener("pointerup", (event) => {
     // 立即註冊訂閱監聽
     async function sendMessage() {
         lastSentTime = Date.now();
-        
+
+        ///if ( new Set(userDatas).has(adminData) ) {} else { }
+        if ( new Set(userDatas.map(u => JSON.stringify(u))).has( JSON.stringify(adminData) ) ) {} else { 
+            document.getElementById('InputMsg').focus(); 
+            document.getElementById('InputMsg').value = "The admin is not here.";
+            return; 
+        }  ///20250315
+
         ///let message = null;
         ///let source = null;
         ///let target = null;
@@ -1398,9 +1405,11 @@ document.addEventListener("pointerup", (event) => {
 
             const email = room;
             const webpush = await channels({ "email": email });
+            adminData = JSON.parse(webpush);
+            ///adminData = webpush;  ///JSON.parse(admin)
             console.log(webpush);
-            ///pushAdmin(null, "nins/transing", room, webpush);
-            pushAdmin(null, "nins/transing", `${room} <<< ${uuid_user}`, webpush);
+            ///pushAdmin(null, "nins/transing", room, webpush);  
+            pushAdmin(null, "nins/transing", `${room} <<< ${uuid_user}`, adminData);  
 
             document.getElementById('InputRoom').style.display = '';
             document.getElementById('InputRoom').disabled = false;  // 不禁用
@@ -2349,6 +2358,7 @@ document.addEventListener("pointerup", (event) => {
       let clientIds;
       let userDatas;
       let transings;
+      let adminData;  ///20260315
       async function getUsers(members=transings) {
         transings = members;
 
@@ -2387,7 +2397,7 @@ document.addEventListener("pointerup", (event) => {
             "title": "${title}",
             "body": "${body}"
         },
-        "subscription": ${JSON.stringify([ JSON.parse(admin) ])}
+        "subscription": ${JSON.stringify([ admin ])}
         }`;
         
         console.log(payload);
@@ -2402,8 +2412,6 @@ document.addEventListener("pointerup", (event) => {
     </script>
 </body>
 </html>
-
-
 
 
 
