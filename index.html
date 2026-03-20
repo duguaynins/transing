@@ -7,6 +7,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -605,10 +606,10 @@ document.addEventListener("pointerup", (event) => {
 
       async function semantic(params) { 
         console.log('翻譯比對:', params);
-        const { smsg, rmsg } = params;
-        if (smsg === rmsg) { return "{goog:1.0||meta:1.0}"; }
+        const { a, b } = params;
+        if (a === b) { return "{goog:1.0||meta:1.0}"; }
 
-        const inputs = { "inputs": { "a": smsg, "b": rmsg } };
+        const inputs = { "inputs": { "a": a, "b": b } };
         const outputs = await HuggingFaceAPI({
           group: "duguaynins",
           space: "RedirectAPI",
@@ -1310,7 +1311,7 @@ document.addEventListener("pointerup", (event) => {
         ///channel.publish('message', result);
         
         // 語意距離
-        const distance = await semantic({ "smsg": smsg, "rmsg": imsg }); // duguaynins/SemanticDistance
+        const distance = await semantic({ "a": smsg, "b": imsg }); // duguaynins/SemanticDistance
         console.log("語意距離：" + distance + "***");
 
         // 世界時間***  ///20260113
@@ -1778,14 +1779,13 @@ document.addEventListener("pointerup", (event) => {
           
           // 用模板字串生成完整 URL**
           const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSdhEtDT6iin8qox8si8eWufXwCiDWNBjSr6AFGIQEfjoXjpIQ/viewform?usp=pp_url";
-
           const var1 = msgtTextm;
           const var2 = msgtTexts;
           const var3 = msgtTextr;
           const var4 = msgDist;
           const var5 = uuid_user;
           const fullURL = `${baseURL}&entry.646913966=${encodeURIComponent(var1)}&entry.108198120=${encodeURIComponent(var2)}&entry.2008598079=${encodeURIComponent(var3)}&entry.1461710493=${encodeURIComponent(var4)}&entry.2108432241=${encodeURIComponent(var5)}`;
-          
+
           // 提示詞語
           const lang = `${(navigator.language || navigator.userLanguage || "en-US")}. Content generation uses this language`;
           const task = "Please tell me the meaning of this input";
@@ -1809,24 +1809,25 @@ document.addEventListener("pointerup", (event) => {
           // 使用模板字串，插入 randomID 到 HTML 字串中**
           ///const p = document.createElement('p');  // 棄用此行
           const div = document.createElement("div");
+          div.id = `${randomID}`;
           div.innerHTML = `
             <span id="${randomID}_T" style="color:black;" translate="no">${msgTime}</span><br>
-            <span style="color:black;">（
-            <label id="${randomID}_sl" translate="no" style="color:black;">👂sl:${msgtLangs}<input style="display:none;" type="button" value="👂${msgtLangs}" onclick="handleTTS('${randomID}_0')" /></label>
-            <label id="${randomID}_tl" translate="no" style="color:black;">👂tl:${msgtLangm}<input style="display:none;" type="button" value="👂${msgtLangm}" onclick="handleTTS('${randomID}_1')" /></label>
-            <label id="${randomID}_il" translate="no" style="color:black;">👂il:${msgtLangr}<input style="display:none;" type="button" value="👂${msgtLangr}" onclick="handleTTS('${randomID}_9')" /></label>
-            <label id="${randomID}_oa" translate="no" style="color:black;"> <a translate="no" style="text-decoration: none;" target="_blank" rel="noopener noreferrer" href="${openai}">🧠AI:O</a> </label>
-            <label id="${randomID}_gg" translate="no" style="color:black;"> <a translate="no" style="text-decoration: none;" target="_blank" rel="noopener noreferrer" href="${google}">♊AI:G</a> </label>
+            <span id="${randomID}_ctrl" style="color:black;">（
+                <label id="${randomID}_sl" translate="no" style="color:black;">👂sl:${msgtLangs}<input style="display:none;" type="button" value="👂${msgtLangs}" onclick="handleTTS('${randomID}_0')" /></label>
+                <label id="${randomID}_tl" translate="no" style="color:black;">👂tl:${msgtLangm}<input style="display:none;" type="button" value="👂${msgtLangm}" onclick="handleTTS('${randomID}_1')" /></label>
+                <label id="${randomID}_il" translate="no" style="color:black;">👂il:${msgtLangr}<input style="display:none;" type="button" value="👂${msgtLangr}" onclick="handleTTS('${randomID}_9')" /></label>
+                <label id="${randomID}_oa" translate="no" style="color:black;"> <a translate="no" style="text-decoration: none;" target="_blank" rel="noopener noreferrer" href="${openai}">🧠AI:O</a> </label>
+                <label id="${randomID}_gg" translate="no" style="color:black;"> <a translate="no" style="text-decoration: none;" target="_blank" rel="noopener noreferrer" href="${google}">♊AI:G</a> </label>
             ）</span>
             
             <p id="${randomID}_2" translate="no" style="display:block; color:gray;">（ 👁️<span translate="yes">${msgtTextr}</span> ）</p>
-            <p id="${randomID}_0" translate="no" style="display:none; color:gray;">（ 🔣${msgtTexts}👄${msgtLangs} ）</p>
-            <p id="${randomID}_1" translate="no" style="display:none; color:gray;">（ 🤖${msgtTextm}👄${msgtLangm} ）</p>
-            <p id="${randomID}_9" translate="no" style="display:none; color:gray;">（ 👻${msgtTextr}👄${msgtLangr} ）</p>
+            <p id="${randomID}_0" translate="no" style="display:none; color:gray;">（ 🔣<span translate="no">${msgtTexts}</span>👄${msgtLangs} ）</p>
+            <p id="${randomID}_1" translate="no" style="display:none; color:gray;">（ 🤖<span translate="no">${msgtTextm}</span>👄${msgtLangm} ）</p>
+            <p id="${randomID}_9" translate="no" style="display:none; color:gray;">（ 👻<span translate="no">${msgtTextr}</span>👄${msgtLangr} ）</p>
 
-            <span style="color:gray;">（
-            <label id="${randomID}_ds" translate="no" style="color:gray;">🎯${msgDist}📏ds:${msgtLangr}&${msgtLangs}<input style="display:none;" type="button" value="👂${0}" onclick="window.open('${fullURL}', '_blank', 'noopener,noreferrer')" /></label>
-            ）</span>
+            <p id="${randomID}_ds" translate="no" style="color:gray;" onclick="autoDS('${randomID}');" >（
+                🎯${msgDist}📏ds:${msgtLangr}&${msgtLangs}
+            ）</p>
           `;
           
           // 添加紀錄
@@ -1862,6 +1863,49 @@ document.addEventListener("pointerup", (event) => {
         document.getElementById("InputMsg").focus();
         ///box.scrollTop = box.scrollHeight; 
         autoScroll();
+    }
+
+    async function autoDS(id="") {
+
+        ///const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSdhEtDT6iin8qox8si8eWufXwCiDWNBjSr6AFGIQEfjoXjpIQ/viewform?usp=pp_url";
+
+        const var_time = document.getElementById(`${id}_T`).innerText;
+        const var_ctrl = document.getElementById(`${id}_ctrl`).innerText;
+        
+        const var_2 = document.getElementById(`${id}_2`).textContent;  ///rl
+        const var_0 = document.getElementById(`${id}_0`).textContent;  ///sl
+        const var_1 = document.getElementById(`${id}_1`).textContent;  ///tl
+        const var_9 = document.getElementById(`${id}_9`).textContent;  ///il
+
+        const var_ds = document.getElementById(`${id}_ds`).innerText;
+        
+        const var_rl = document.getElementById(`${id}_2`).children[0].textContent;  ///rl
+        const var_sl = document.getElementById(`${id}_0`).children[0].textContent;  ///sl
+        const var_tl = document.getElementById(`${id}_1`).children[0].textContent;  ///tl
+        const var_il = document.getElementById(`${id}_9`).children[0].textContent;  ///il
+
+        const var_uuid = uuid_user;
+        const var_test = document.getElementById(`${id}`).innerText;
+
+        const xl_xl = `${var_time}\n${var_ctrl}\n${var_2}\n${var_0}\n${var_1}\n${var_9}\n${var_ds}\n`;  ///${var_uuid}
+        ///const fullURL = `${baseURL}&entry.646913966=${encodeURIComponent(var0)}&entry.108198120=${encodeURIComponent(var2)}&entry.2008598079=${encodeURIComponent(var3)}&entry.1461710493=${encodeURIComponent(var4)}&entry.2108432241=${encodeURIComponent(var5)}`;
+        
+        const sl_tl = await semantic({ "a": var_sl, "b": var_tl }); // duguaynins/SemanticDistance
+        console.log("sl_tl: " + sl_tl + "***");
+
+        const sl_rl = await semantic({ "a": var_sl, "b": var_rl }); // duguaynins/SemanticDistance
+        console.log("sl_rl: " + sl_rl + "***");
+
+        const sl_il = await semantic({ "a": var_sl, "b": var_il }); // duguaynins/SemanticDistance
+        console.log("sl_rl: " + sl_il + "***");
+
+        const il_rl = await semantic({ "a": var_il, "b": var_rl }); // duguaynins/SemanticDistance
+        console.log("sl_rl: " + il_rl + "***");
+        
+        ///https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5
+        const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}`;
+        window.open(`${dsurl}`, '_blank', 'noopener,noreferrer');
+
     }
 
     function autoScroll() {
