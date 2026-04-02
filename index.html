@@ -8,6 +8,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -1178,6 +1179,9 @@ document.addEventListener("pointerup", (event) => {
     
     // 接收****
     // 立即註冊訂閱監聽
+    
+    let oldInputMsg = null; 
+    let newInputMsg = null;
     async function sendMessage() {
         lastSentTime = Date.now();
 
@@ -1218,8 +1222,13 @@ document.addEventListener("pointerup", (event) => {
         if (!xmsg) return;  //???
         ///await translate(message, source, target);  // 進行翻譯**
         
-        // 測試先行刪除***
-        input.value = '';
+        if (true) {  ///OK
+            // 測試先行清空輸入框
+            newInputMsg = input.value;  ///20260402
+            input.value = '';
+            // 輸入框變成禁止使用
+            document.getElementById('InputMsg').disabled = true;  ///20260401
+        }
         
         
         
@@ -1356,7 +1365,7 @@ document.addEventListener("pointerup", (event) => {
         if (!checkbox.checked) {
             window.open(fullURL, "_blank", "noopener,noreferrer");
         } 
-    }
+    }///sendMessage
     
     
     
@@ -1371,7 +1380,8 @@ document.addEventListener("pointerup", (event) => {
     // 連線後的禁用****
     // 收到訊息時更新聊天室  
     async function sendSocket() {      
-        lastSentTime = Date.now();
+        document.getElementById('InputMsg').focus();  ///init
+        lastSentTime = Date.now();                    ///init
     
         // 取消以下兩行
         ///document.getElementById('InputRoom').value = document.getElementById('InputRoom').value || "WORLD";
@@ -1837,9 +1847,12 @@ document.addEventListener("pointerup", (event) => {
           ///document.getElementById("chatbox").insertBefore(div, anchor);
           document.getElementById('anchor').after(div);
 
-          // 滾動紀錄
-          ///box.scrollTop = box.scrollHeight; 
-          ///autoScroll();
+          // 開啟輸入框
+          if (newInputMsg===msgtTexts) {  ///OK
+              document.getElementById('InputMsg').disabled = false;  ///20260401
+              oldInputMsg = newInputMsg;  ///20260402
+          }
+
 
           // 取得 select 元素
           var Playxlang = document.getElementById("Playxlang").value;
@@ -1861,6 +1874,11 @@ document.addEventListener("pointerup", (event) => {
         ///document.getElementById("InputMsg").value = "I joined the " + room + " channel.";
         ///document.getElementById("ButtonMsg").click();
         document.getElementById("InputMsg").focus();
+        ///box.scrollTop = box.scrollHeight; 
+
+        
+
+        // 滾動紀錄
         ///box.scrollTop = box.scrollHeight; 
         autoScroll();
     }
