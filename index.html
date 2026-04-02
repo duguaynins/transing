@@ -1899,6 +1899,7 @@ document.addEventListener("pointerup", (event) => {
 
     }
 
+    let isinit_autoScroll = null;
     function autoScroll() {
         const chatBox = document.getElementById('chatbox');
         const anchor = document.getElementById('anchor');
@@ -1924,16 +1925,17 @@ document.addEventListener("pointerup", (event) => {
             });
         }
 
-        if (true) {
+        if (!isinit_autoScroll) {
+            isinit_autoScroll = true;
             const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.addedNodes.length) {
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                    console.log("go-msg!observer");
-                }
+                mutations.forEach((mutation) => {
+                    if (mutation.addedNodes.length) {
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                        console.log("go-msg!observer");
+                    }
+                });
             });
-});
-observer.observe(chatWindow, { childList: true });
+            observer.observe(chatBox, { childList: true });
         }
     }
 
