@@ -1913,13 +1913,27 @@ document.addEventListener("pointerup", (event) => {
                 block: 'end',    // start / center / end / nearest
                 inline: 'nearest'
             });
+            console.log("go-msg!scrollIntoView");
         }
         if (chatBox) {            
             requestAnimationFrame(() => {
                 chatBox.scrollTop = chatBox.scrollHeight;
                 ///const anchorOffset = anchor.offsetTop - chatBox.offsetTop;
                 ///chatBox.scrollTo({ top: anchorOffset, behavior: 'smooth' });
+                console.log("go-msg!requestAnimationFrame");
             });
+        }
+
+        if (true) {
+            const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.addedNodes.length) {
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    console.log("go-msg!observer");
+                }
+            });
+});
+observer.observe(chatWindow, { childList: true });
         }
     }
 
