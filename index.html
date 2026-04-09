@@ -1189,8 +1189,8 @@ document.addEventListener("pointerup", (event) => {
         ///if ( new Set(userDatas).has(adminData) ) {} else { }
         if ( new Set(userDatas.map(u => JSON.stringify(u))).has( JSON.stringify(adminData) ) ) {} else { 
             document.getElementById('InputMsg').focus(); 
-            document.getElementById('InputMsg').value = "The admin is not here.";
-            if (window.location.protocol === 'file:') {  }  ///20260409
+            document.getElementById('InputMsg').value = "The admin is not here.";  ///20260409
+            if (window.location.protocol === 'file:') { return; }                  ///20260409***
             else { return; }
         }  ///20250315
 
