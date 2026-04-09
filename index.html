@@ -9,6 +9,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -1189,7 +1190,8 @@ document.addEventListener("pointerup", (event) => {
         if ( new Set(userDatas.map(u => JSON.stringify(u))).has( JSON.stringify(adminData) ) ) {} else { 
             document.getElementById('InputMsg').focus(); 
             document.getElementById('InputMsg').value = "The admin is not here.";
-            return; 
+            if (window.location.protocol === 'file:') {  }  ///20260409
+            else { return; }
         }  ///20250315
 
         ///let message = null;
@@ -1885,7 +1887,6 @@ document.addEventListener("pointerup", (event) => {
 
     async function autoDS(id="") {
 
-        
         const var_time = document.getElementById(`${id}_T`).innerText;
         const var_ctrl = document.getElementById(`${id}_ctrl`).textContent.replace(/\s+/g, "");  ///.replace(/\s+/g, "");
         const var_text = document.getElementById(`${id}_text`).textContent.replace(/  /g, "");  ///.replace(/ /g, "");
@@ -1903,6 +1904,22 @@ document.addEventListener("pointerup", (event) => {
         const var_uuid = uuid_user;
         const var_test = document.getElementById(`${id}`).textContent.replace(/\s{2,}/g, "").replace(/（/g, "\n（");
 
+        ///START:追加的反向翻譯內容  ///20260409
+        let xmsg = var_rl;
+        let smsg = null; let tmsg = null; let imsg = null; 
+        const gens = await generate({ "text": xmsg, "source": null, "target": {tl:tlang, il:ilang} });  // 測試取代首次翻譯  //ALARM???
+        const obj = JSON.parse(gens.result);
+        console.log(gens);
+        console.log(gens.result);
+        smsg = xmsg;
+        tmsg = obj[tlang];  ///obj.tlang;  ///
+        imsg = obj[ilang];  ///obj.ilang;  ///
+        console.log(smsg);
+        console.log(tmsg);
+        console.log(imsg);
+        const var_re = imsg;
+        ///END:追加的反向翻譯內容  ///20260409
+
         ///const xl_xl = `{\n${var_test}\n🕛...\n}`;  ///${var_uuid}
         ///const xl_xl = `{\n${var_time}\n${var_ctrl}\n${var_text}\n${var_ds}\n🕛...\n}`;  ///${var_uuid}
         const xl_xl = `{\n${var_time}\n${var_ctrl}\n${var_2}\n${var_9}\n${var_0}\n${var_1}\n${var_ds}\n🕛...\n}`;  ///${var_uuid}
@@ -1910,9 +1927,13 @@ document.addEventListener("pointerup", (event) => {
         const sl_rl = await semantic({ "a": var_sl, "b": var_rl }); // duguaynins/SemanticDistance
         const sl_il = await semantic({ "a": var_sl, "b": var_il }); // duguaynins/SemanticDistance
         const il_rl = await semantic({ "a": var_il, "b": var_rl }); // duguaynins/SemanticDistance
+        const il_il = await semantic({ "a": var_il, "b": var_re }); // duguaynins/SemanticDistance  ///20260409
         
         ///https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5
-        const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}`;
+        ///const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}`;
+        
+        ///https://docs.google.com/forms/d/e/1FAIpQLSd6sbxhNHy5ECWxKXotL9-I9alKbzJFS2ZwlXHaitfJdD30dw/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5&entry.2074185979=6
+        const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSd6sbxhNHy5ECWxKXotL9-I9alKbzJFS2ZwlXHaitfJdD30dw/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}&entry.2074185979=${encodeURIComponent(il_il)}`;
         window.open(`${dsurl}`, '_blank', 'noopener,noreferrer');
 
     }
