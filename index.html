@@ -10,6 +10,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -1886,6 +1887,7 @@ document.addEventListener("pointerup", (event) => {
     }
 
     async function autoDS(id="") {
+        if (true) { return; }
 
         const var_time = document.getElementById(`${id}_T`).innerText;
         const var_ctrl = document.getElementById(`${id}_ctrl`).textContent.replace(/\s+/g, "");  ///.replace(/\s+/g, "");
@@ -1907,28 +1909,34 @@ document.addEventListener("pointerup", (event) => {
         ///START:追加的反向翻譯內容  ///20260409
         let xmsg = var_rl;
         let smsg = null; let tmsg = null; let imsg = null; 
-        const gens = await generate({ "text": xmsg, "source": null, "target": {tl:tlang, il:ilang} });  // 測試取代首次翻譯  //ALARM???
+        const gens = await generate({ "text": xmsg, "source": null, "target": {tl:var_sl, il:ilang} });  // 測試取代首次翻譯  //ALARM???  ///"target": {tl:tlang, il:ilang}
         const obj = JSON.parse(gens.result);
         console.log(gens);
         console.log(gens.result);
         smsg = xmsg;
-        tmsg = obj[tlang];  ///obj.tlang;  ///
-        imsg = obj[ilang];  ///obj.ilang;  ///
+        tmsg = obj[var_sl];  ///obj.tlang;  ///tlang
+        imsg = obj[ilang];  ///obj.ilang;  ///ilang
         console.log(smsg);
         console.log(tmsg);
         console.log(imsg);
         const var_il2 = imsg;
+        const var_sl2 = tmsg;
         ///END:追加的反向翻譯內容  ///20260409
 
         ///const xl_xl_text = `{\n${var_test}\n🕛...\n}`;  ///${var_uuid}
         ///const xl_xl_text = `{\n${var_time}\n${var_ctrl}\n${var_text}\n${var_ds}\n🕛...\n}`;  ///${var_uuid}
         const xl_xl_text = `{\n${var_time}\n${var_ctrl}\n${var_2}\n${var_9}\n${var_0}\n${var_1}\n${var_ds}\n🕛...\n}`;  ///${var_uuid}
+        
+        ///const sl_tl = await semantic({ "a": var_sl, "b": var_tl }); // duguaynins/SemanticDistance
+        ///const sl_rl = await semantic({ "a": var_sl, "b": var_rl }); // duguaynins/SemanticDistance
+        ///const sl_il = await semantic({ "a": var_sl, "b": var_il }); // duguaynins/SemanticDistance
+        ///const il_rl = await semantic({ "a": var_il, "b": var_rl }); // duguaynins/SemanticDistance
+
         const il_il_text = `{'a':'${var_il}','b':'${var_il2}'}`;
-        const sl_tl = await semantic({ "a": var_sl, "b": var_tl }); // duguaynins/SemanticDistance
-        const sl_rl = await semantic({ "a": var_sl, "b": var_rl }); // duguaynins/SemanticDistance
-        const sl_il = await semantic({ "a": var_sl, "b": var_il }); // duguaynins/SemanticDistance
-        const il_rl = await semantic({ "a": var_il, "b": var_rl }); // duguaynins/SemanticDistance
         const il_il = await semantic({ "a": var_il, "b": var_il2 }); // duguaynins/SemanticDistance  ///20260409
+
+        const sl_sl_text = `{'a':'${var_sl}','b':'${var_sl2}'}`;
+        const sl_sl = await semantic({ "a": var_sl, "b": var_sl2 }); // duguaynins/SemanticDistance  ///20260409
         
         ///https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5
         ///const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl_text)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}`;
