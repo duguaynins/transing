@@ -1887,7 +1887,7 @@ document.addEventListener("pointerup", (event) => {
     }
 
     async function autoDS(id="") {
-        if (true) { return; }
+        ///if (true) { return; }
 
         const var_time = document.getElementById(`${id}_T`).innerText;
         const var_ctrl = document.getElementById(`${id}_ctrl`).textContent.replace(/\s+/g, "");  ///.replace(/\s+/g, "");
@@ -1909,12 +1909,12 @@ document.addEventListener("pointerup", (event) => {
         ///START:追加的反向翻譯內容  ///20260409
         let xmsg = var_rl;
         let smsg = null; let tmsg = null; let imsg = null; 
-        const gens = await generate({ "text": xmsg, "source": null, "target": {tl:var_sl, il:ilang} });  // 測試取代首次翻譯  //ALARM???  ///"target": {tl:tlang, il:ilang}
+        const gens = await generate({ "text": xmsg, "source": null, "target": {tl:var_0, il:ilang} });  // 測試取代首次翻譯  //ALARM???  ///"target": {tl:tlang, il:ilang}
         const obj = JSON.parse(gens.result);
         console.log(gens);
         console.log(gens.result);
         smsg = xmsg;
-        tmsg = obj[var_sl];  ///obj.tlang;  ///tlang
+        tmsg = obj[var_0];  ///obj.tlang;  ///tlang
         imsg = obj[ilang];  ///obj.ilang;  ///ilang
         console.log(smsg);
         console.log(tmsg);
@@ -1943,7 +1943,18 @@ document.addEventListener("pointerup", (event) => {
         
         ///https://docs.google.com/forms/d/e/1FAIpQLSd6sbxhNHy5ECWxKXotL9-I9alKbzJFS2ZwlXHaitfJdD30dw/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5&entry.2074185979=6
         ///https://docs.google.com/forms/d/e/1FAIpQLSd6sbxhNHy5ECWxKXotL9-I9alKbzJFS2ZwlXHaitfJdD30dw/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5&entry.2074185979=6&entry.930367133=7
-        const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSd6sbxhNHy5ECWxKXotL9-I9alKbzJFS2ZwlXHaitfJdD30dw/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl_text)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}&entry.2074185979=${encodeURIComponent(il_il_text)}&entry.930367133=${encodeURIComponent(il_il)}`;
+        ///const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSd6sbxhNHy5ECWxKXotL9-I9alKbzJFS2ZwlXHaitfJdD30dw/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl_text)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}&entry.2074185979=${encodeURIComponent(il_il_text)}&entry.930367133=${encodeURIComponent(il_il)}`;
+        
+        ///https://docs.google.com/forms/d/e/1FAIpQLSfCgQUgXp6lGy7StHjV5ah6Smf4I4dcm2wb6xTC0aZmknswBg/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5&entry.2074185979=6&entry.930367133=7&entry.989888733=8&entry.1543549708=9
+        ///https://docs.google.com/forms/d/e/1FAIpQLSfCgQUgXp6lGy7StHjV5ah6Smf4I4dcm2wb6xTC0aZmknswBg/viewform?usp=pp_url&entry.576106746=1&entry.108198120=2&entry.2008598079=3&entry.646913966=4&entry.1456046338=5&entry.1774670439=6
+        const q1 = `entry.576106746=${null}`;
+        const q2 = `entry.108198120=${encodeURIComponent(xl_xl_text)}`;
+        const q3 = `entry.2008598079=${encodeURIComponent(sl_sl)}`;
+        const q4 = `entry.646913966=${encodeURIComponent(sl_sl_text)}`;
+        const q5 = `entry.1456046338=${encodeURIComponent(il_il)}`;
+        const q6 = `entry.1774670439=${encodeURIComponent(il_il_text)}`;
+        const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSfCgQUgXp6lGy7StHjV5ah6Smf4I4dcm2wb6xTC0aZmknswBg/viewform?usp=pp_url&${q1}&${q2}&${q3}&${q4}&${q5}&${q6}`;
+        
         window.open(`${dsurl}`, '_blank', 'noopener,noreferrer');
 
     }
