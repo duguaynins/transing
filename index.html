@@ -1894,27 +1894,29 @@ document.addEventListener("pointerup", (event) => {
         const var_text = document.getElementById(`${id}_text`).textContent.replace(/  /g, "");  ///.replace(/ /g, "");
         const var_ds = document.getElementById(`${id}_ds`).textContent.replace(/\s+/g, "");
         
+        ///取得整句
         const var_2 = document.getElementById(`${id}_2`).textContent;  ///rl_text
         const var_0 = document.getElementById(`${id}_0`).textContent;  ///sl_text
         const var_1 = document.getElementById(`${id}_1`).textContent;  ///tl_text
         const var_9 = document.getElementById(`${id}_9`).textContent;  ///il_text
-        const var_rl = document.getElementById(`${id}_2`).children[0].textContent;  ///rl_code
-        const var_sl = document.getElementById(`${id}_0`).children[0].textContent;  ///sl_code
-        const var_tl = document.getElementById(`${id}_1`).children[0].textContent;  ///tl_code
-        const var_il = document.getElementById(`${id}_9`).children[0].textContent;  ///il_code
+        ///取得純文字
+        const var_rl = document.getElementById(`${id}_2`).children[0].textContent;  ///rl_text
+        const var_sl = document.getElementById(`${id}_0`).children[0].textContent;  ///sl_text
+        const var_tl = document.getElementById(`${id}_1`).children[0].textContent;  ///tl_text
+        const var_il = document.getElementById(`${id}_9`).children[0].textContent;  ///il_text
 
         const var_uuid = uuid_user;
         const var_test = document.getElementById(`${id}`).textContent.replace(/\s{2,}/g, "").replace(/（/g, "\n（");
 
         ///START:追加的反向翻譯內容  ///20260409
-        let xmsg = var_rl;  ///var_rl or var_tl
+        let xmsg = var_rl;  ///var_rl or var_tl  ///var_2 or var_1XXX
         let smsg = null; let tmsg = null; let imsg = null; 
-        const gens = await generate({ "text": xmsg, "source": null, "target": {tl:var_sl, il:ilang} });  // 測試取代首次翻譯  //ALARM???  ///"target": {tl:tlang, il:ilang}
+        const gens = await generate({ "text": xmsg, "source": null, "target": {tl:tlang, il:ilang} });  // 測試取代首次翻譯  //ALARM???  ///"target": {tl:tlang, il:ilang}
         const obj = JSON.parse(gens.result);
         console.log(gens);
         console.log(gens.result);
         smsg = xmsg;
-        tmsg = obj[var_0];  ///obj.tlang;  ///tlang
+        tmsg = obj[tlang];  ///obj.tlang;  ///tlang
         imsg = obj[ilang];  ///obj.ilang;  ///ilang
         console.log(smsg);
         console.log(tmsg);
