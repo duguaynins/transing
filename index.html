@@ -1907,7 +1907,7 @@ document.addEventListener("pointerup", (event) => {
         const var_test = document.getElementById(`${id}`).textContent.replace(/\s{2,}/g, "").replace(/（/g, "\n（");
 
         ///START:追加的反向翻譯內容  ///20260409
-        let xmsg = var_rl;
+        let xmsg = var_tl;  ///var_rl or var_tl
         let smsg = null; let tmsg = null; let imsg = null; 
         const gens = await generate({ "text": xmsg, "source": null, "target": {tl:var_0, il:ilang} });  // 測試取代首次翻譯  //ALARM???  ///"target": {tl:tlang, il:ilang}
         const obj = JSON.parse(gens.result);
