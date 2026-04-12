@@ -1936,10 +1936,10 @@ document.addEventListener("pointerup", (event) => {
         ///const il_rl = await semantic({ "a": var_il, "b": var_rl }); // duguaynins/SemanticDistance
 
         const il_il_text = `{'a':'${var_il}','b':'${var_il2}'}`;
-        const il_il = await semantic({ "a": var_il, "b": var_il2 }); // duguaynins/SemanticDistance  ///20260409
+        ///const il_il = await semantic({ "a": var_il, "b": var_il2 }); // duguaynins/SemanticDistance  ///20260409
 
         const sl_sl_text = `{'a':'${var_sl}','b':'${var_sl2}'}`;
-        const sl_sl = await semantic({ "a": var_sl, "b": var_sl2 }); // duguaynins/SemanticDistance  ///20260410  ///文字可能使用不同表示法，所以不可行。
+        ///const sl_sl = await semantic({ "a": var_sl, "b": var_sl2 }); // duguaynins/SemanticDistance  ///20260410  ///文字可能使用不同表示法，所以不可行。
         
         ///https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5
         ///const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSdcnkEbj_B7RjfNZIoyZ3XvFXJ8q0MAHFQY0ncQ4vQ-sHbKFQ/viewform?usp=pp_url&entry.108198120=${encodeURIComponent(xl_xl_text)}&entry.2008598079=${encodeURIComponent(sl_tl)}&entry.646913966=${encodeURIComponent(sl_rl)}&entry.1456046338=${encodeURIComponent(sl_il)}&entry.1774670439=${encodeURIComponent(il_rl)}`;
@@ -1950,14 +1950,23 @@ document.addEventListener("pointerup", (event) => {
         
         ///https://docs.google.com/forms/d/e/1FAIpQLSfCgQUgXp6lGy7StHjV5ah6Smf4I4dcm2wb6xTC0aZmknswBg/viewform?usp=pp_url&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5&entry.2074185979=6&entry.930367133=7&entry.989888733=8&entry.1543549708=9
         ///https://docs.google.com/forms/d/e/1FAIpQLSfCgQUgXp6lGy7StHjV5ah6Smf4I4dcm2wb6xTC0aZmknswBg/viewform?usp=pp_url&entry.576106746=1&entry.108198120=2&entry.2008598079=3&entry.646913966=4&entry.1456046338=5&entry.1774670439=6
+        ///const q1 = `entry.576106746=${null}`;
+        ///const q2 = `entry.108198120=${encodeURIComponent(xl_xl_text)}`;
+        ///const q3 = `entry.2008598079=${encodeURIComponent(sl_sl)}`;  ///sl1
+        ///const q4 = `entry.646913966=${encodeURIComponent(sl_sl_text)}`;  ///sl2
+        ///const q5 = `entry.1456046338=${encodeURIComponent(il_il)}`;  ///il1
+        ///const q6 = `entry.1774670439=${encodeURIComponent(il_il_text)}`;  ///il2
+        ///const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSfCgQUgXp6lGy7StHjV5ah6Smf4I4dcm2wb6xTC0aZmknswBg/viewform?usp=pp_url&${q1}&${q2}&${q3}&${q4}&${q5}&${q6}`;
+        
+        ///https://docs.google.com/forms/d/e/1FAIpQLSfbtpwmgbtjW1XaE3cUoBaj9BCsRd8gtqm3gBKyyC41C7xROw/viewform?usp=pp_url&entry.576106746=0&entry.108198120=1&entry.2008598079=2&entry.646913966=3&entry.1456046338=4&entry.1774670439=5
         const q1 = `entry.576106746=${null}`;
         const q2 = `entry.108198120=${encodeURIComponent(xl_xl_text)}`;
-        const q3 = `entry.2008598079=${encodeURIComponent(sl_sl)}`;
-        const q4 = `entry.646913966=${encodeURIComponent(sl_sl_text)}`;
-        const q5 = `entry.1456046338=${encodeURIComponent(il_il)}`;
-        const q6 = `entry.1774670439=${encodeURIComponent(il_il_text)}`;
-        const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSfCgQUgXp6lGy7StHjV5ah6Smf4I4dcm2wb6xTC0aZmknswBg/viewform?usp=pp_url&${q1}&${q2}&${q3}&${q4}&${q5}&${q6}`;
-        
+        const q3 = `entry.2008598079=${encodeURIComponent(var_sl)}`;  ///sl1
+        const q4 = `entry.646913966=${encodeURIComponent(var_sl2)}`;  ///sl2
+        const q5 = `entry.1456046338=${encodeURIComponent(var_il)}`;  ///il1
+        const q6 = `entry.1774670439=${encodeURIComponent(var_il2)}`;  ///il2
+        const dsurl = `https://docs.google.com/forms/d/e/1FAIpQLSfbtpwmgbtjW1XaE3cUoBaj9BCsRd8gtqm3gBKyyC41C7xROw/viewform?usp=pp_url&${q1}&${q2}&${q3}&${q4}&${q5}&${q6}`;
+
         window.open(`${dsurl}`, '_blank', 'noopener,noreferrer');
 
     }
