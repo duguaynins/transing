@@ -11,6 +11,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -615,8 +616,8 @@ document.addEventListener("pointerup", (event) => {
         const inputs = { "inputs": { "a": a, "b": b } };
         const outputs = await HuggingFaceAPI({
           group: "duguaynins",
-          space: "RedirectAPI",
-          path: "MultipleEmbeddings/predict",  ///embeddings/meta
+          space: "Server",
+          path: "/embeddings/multiple",  ///MultipleEmbeddings/predict
           payload: inputs,
         }); 
 
@@ -625,7 +626,7 @@ document.addEventListener("pointerup", (event) => {
         return outputs.result.label;
       }
 
-      async function translate(params) {  
+      async function translate(params) {  ///暫時棄用
         console.log('翻譯文本:', params);
         const { text, source = 'auto', target } = params;
         if (source === target) { return text; }
@@ -634,8 +635,8 @@ document.addEventListener("pointerup", (event) => {
         const inputs = { "inputs": {"text":text,"target":target,"source":source} };
         const outputs = await HuggingFaceAPI({
           group: "duguaynins",
-          space: "RedirectAPI",
-          path: "MultipleTransings/predict",  ///transings/deep
+          space: "Server",
+          path: "transings/deep",  ///MultipleTransings/predict
           payload: inputs,
         }); 
 
@@ -661,7 +662,7 @@ document.addEventListener("pointerup", (event) => {
         const inputs = { "inputs": {models:'gpt-4o-mini',system:system ,user:user} }
         const outputs = await HuggingFaceAPI({
           group: "duguaynins",
-          space: "RedirectAPI",  ///MultipleLLMs
+          space: "Server",  ///MultipleLLMs
           path: "generate/llms",  ////run/predict, api/predict, predict, /queue/join
           payload: inputs,
         }); 
