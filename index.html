@@ -13,6 +13,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -612,19 +613,26 @@ document.addEventListener("pointerup", (event) => {
       async function semantic(params) { 
         console.log('翻譯比對:', params);
         const { a, b } = params;
-        if (a === b) { return "{goog:1.0||meta:1.0}"; }
+        ///if (a === b) { return "{goog:1.0||meta:1.0}"; }
+        if (a === b) {
+          return JSON.stringify({
+            goog: 1.0,
+            meta: 1.0
+          });
+        }
 
         const inputs = { "inputs": { "a": a, "b": b } };
         const outputs = await HuggingFaceAPI({
           group: "duguaynins",
           space: "Server",
-          path: "/embeddings/multiple",  ///MultipleEmbeddings/predict
+          path: "/embeddings/multiple-vt",  ///MultipleEmbeddings/predict
           payload: inputs,
         }); 
 
         console.log("INPUT:", inputs);
         console.log("OUTPUT:", outputs);
-        return outputs.result.label;
+        ///return outputs.result;  ///.label
+        return JSON.stringify(outputs.result);
       }
 
       async function translate(params) {  ///暫時棄用
@@ -643,7 +651,7 @@ document.addEventListener("pointerup", (event) => {
 
         console.log("INPUT:", inputs);
         console.log("OUTPUT:", outputs);
-        return outputs.result.label;
+        return outputs.result;  ///.label
       }
       
       async function generate(params) {  
@@ -664,7 +672,7 @@ document.addEventListener("pointerup", (event) => {
         const outputs = await HuggingFaceAPI({
           group: "duguaynins",
           space: "Server",  ///MultipleLLMs
-          path: "generate/llms",  ////run/predict, api/predict, predict, /queue/join
+          path: "generate/llms-vt",  ////run/predict, api/predict, predict, /queue/join
           payload: inputs,
         }); 
 
@@ -1841,7 +1849,7 @@ document.addEventListener("pointerup", (event) => {
                 <p id="${randomID}_1" translate="no" style="display:none; color:gray;">（ 🤖<span translate="no">${msgtTextm}</span>👄${msgtLangm} ）</p>
             </span>
             <p id="${randomID}_ds" translate="no" style="color:gray;" onclick="autoDS('${randomID}');" >（
-                🎯${msgDist}📏ds:${msgtLangr}&${msgtLangs}
+                🎯<span translate="yes">score</span>👉${msgDist}📏ds:${msgtLangr}&${msgtLangs}
             ）</p>
           `;
           
