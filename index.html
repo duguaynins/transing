@@ -12,6 +12,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -598,7 +599,7 @@ document.addEventListener("pointerup", (event) => {
         const inputs = { "inputs": { "a": email } };
         const outputs = await HuggingFaceAPI({
           group: "duguaynins",
-          space: "RedirectAPI",
+          space: "Server",
           path: `channels/ably?email=${email}`,  ///embeddings/meta
           payload: inputs,
         }); 
