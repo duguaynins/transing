@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -1477,7 +1478,7 @@ document.addEventListener("pointerup", (event) => {
                     room = room;
                     // 儲存令牌
                     ///fetch('http://localhost:7860/auth', {
-                    fetch('https://duguaynins-RedirectAPI.hf.space/realtime/ably', {
+                    fetch('https://duguaynins-server.hf.space/realtime/ably', {
                       method: 'POST',
                       headers: {
                         'clientId': uuid_user,
@@ -1507,7 +1508,7 @@ document.addEventListener("pointerup", (event) => {
                 console.log("TOKEN: ", token);
                 console.log("ROOM: ", room);
                 updateQR(token);
-                ably = new Ably.Realtime({ authUrl: 'https://duguaynins-RedirectAPI.hf.space/realtime/ably', authMethod: 'POST', authHeaders: { 'clientId': uuid_user, 'Beta': `TOEKN ${token}`, 'Authorization': `Bearer ${0}` } });
+                ably = new Ably.Realtime({ authUrl: 'https://duguaynins-server.hf.space/realtime/ably', authMethod: 'POST', authHeaders: { 'clientId': uuid_user, 'Beta': `TOEKN ${token}`, 'Authorization': `Bearer ${0}` } });
             }
             
             
